@@ -1,0 +1,326 @@
+﻿1. PHP
+
+Instructions:
+Here we have a function that help us spam our hearty laughter. 
+
+function spam($number){
+  //TODO: Not returning the expected value.
+  return "hue" * number;
+}
+
+But is not working! I need you to find out why...
+
+Expected results:
+spam(1);//hue
+spam(6);//huehuehuehuehuehue
+spam(14);//huehuehuehuehuehuehuehuehuehuehuehuehuehue
+
+Your Solution:
+
+function spam($number){
+  //TODO: Not returning the expected value.
+  return "hue" . ($number != 1 ? spam($number-1) : '');
+}
+
+2. PHP & JavaScript
+
+Complete the solution so that the function will break up camel casing, using a space between words.
+
+Example
+
+solution('camelCasing') should return 'camel Casing'
+
+Your Solution:
+
+// complete the function, PHP
+function solution($string) {
+    $result = '';
+    $string_arr = str_split($string);
+
+    foreach($string_arr as $elem) {
+        if($elem != strtolower($elem))
+            $result .= ' ';
+
+        $result .= $elem;
+    }
+
+    return $result;   
+}
+
+// complete the function,JavaScript
+function solution(string) {
+    var result = '';
+
+    for(var i = 0; i < string.length; i++){
+
+        if(string[i] != string[i].toLowerCase()){
+            result += ' ';
+        }
+
+        result += string[i];
+
+    }
+
+    return result;    
+}
+
+3. JavaScript
+
+Description:
+
+It's time to create an autocomplete function! Yay!
+
+The autocomplete function will take in an input string and a dictionary array and return 
+the values from the dictionary that start with the input string. If there are more than 5 matches, 
+restrict your output to the first 5 results. If there are no matches, return an empty array.
+
+Example:
+
+autocomplete('ai', ['airplane','airport','apple','ball']) = ['airplane','airport']
+The dictionary will always be a valid array of strings. Please return all results in the order 
+given in the dictionary, even if they're not always alphabetical. The search should NOT be case 
+sensitive, but the case of the word should be preserved when it's returned.
+
+For example, "Apple" and "airport" would both return for an input of 'a'. However, they should 
+return as "Apple" and "airport" in their original cases.
+
+Important note: Any input that is NOT a letter should be treated as if it is not there. 
+For example, an input of "$%^" should be treated as "" and an input of "ab*&1cd" should be treated as "abcd".
+
+Your Solution:
+
+// complete the function, JavaScript
+function autocomplete(input, dictionary){
+    var result = [];
+    input = input.toLowerCase().replace(/[^a-z]/g, '');
+
+    for(var i = 0; i < dictionary.length; i++){
+        if(dictionary[i].toLowerCase().indexOf(input) >= 0){
+            result.push(dictionary[i]);
+
+            if(result.length == 5)
+                break;
+
+        }
+    }
+
+    return result;
+}
+
+4. PHP
+
+Description:
+
+In elementary arithmetic a "carry" is a digit that is transferred from one column of digits 
+to another column of more significant digits during a calculation algorithm.
+
+This is about determining the number of carries performed during the addition of multi-digit numbers.
+
+You will receive an input string containing a set of pairs of numbers formatted as follows:
+
+123 456
+555 555
+123 594
+
+And your output should be a string formatted as follows:
+
+No carry operation
+3 carry operations
+1 carry operations
+Some Assumptions
+
+Assume that numbers can be of any length.
+But both numbers in the pair will be of the same length.
+Although not all the numbers in the set need to be of the same length.
+If a number is shorter, it will be zero-padded.
+The input may contain any arbitrary number of pairs.
+
+Your Solution:
+
+// complete the function, PHP
+function solve($input){
+    $result = '';
+    $parts = explode("\r\n", $input);
+
+    foreach($parts as $part){
+        $nums = explode(" ", $part);
+        $length = strlen($nums[0]) > strlen($nums[1]) ? strlen($nums[0]) : strlen($nums[1]);
+        $carry_count = 0;
+        $carry = 0;
+
+        for($i = 0; $i < count($nums); $i++){
+            while(strlen($nums[$i]) < $length)
+                $nums[$i] = '0' . $nums[$i];
+
+            $nums[$i] = str_split($nums[$i]);
+        }
+
+        for($i = $length - 1; $i >= 0; $i--){
+            $carry = $nums[0][$i] + $nums[1][$i] + $carry >= 10 ? 1 : 0;
+
+            if($carry)
+                $carry_count++;
+        }
+
+        if($carry_count == 0)
+            $carry_count = "No";
+
+        $result .= $carry_count . " carry operations\r\n";
+    }
+
+    return $result;
+}
+
+
+5. JavaScript
+
+Description:
+
+Write a functions that will make basic math calculations to produce results like in the following example:
+
+three(times(five())); // must return 15
+four(plus(eight())); // must return 12
+eight(minus(two())); // must return 6
+six(dividedBy(three())); // must return 2
+
+Your Solution:
+
+    function zero(x) {
+        return calc(x, 0);
+    }
+    function one(x)  {
+        return calc(x, 1);
+    }
+    function two(x)  {
+        return calc(x, 2);
+    }
+    function three(x)  {
+        return calc(x, 3);
+    }
+    function four(x)  {
+        return calc(x, 4);
+    }
+    function five(x)  {
+        return calc(x, 5);
+    }
+    function six(x)  {
+        return calc(x, 6);
+    }
+    function seven(x)  {
+        return calc(x, 7);
+    }
+    function eight(x)  {
+        return calc(x, 8);
+    }
+    function nine(x)  {
+        return calc(x, 9);
+    }
+
+    function plus(x) {
+        return calc(x, '+');
+    }
+    function minus(x) {
+        return calc(x, '-');
+    }
+    function times(x) {
+        return calc(x, '*');
+    }
+    function dividedBy(x) {
+        return calc(x, '/');
+    }
+
+    function calc(x, value){
+        if(x === undefined)
+            x = [];
+
+        x.unshift(value);
+
+        if(x.length == 3) {
+            switch (x[1]) {
+                case '+':
+                    return x[0] + x[2];
+                case '-':
+                    return x[0] - x[2];
+                case '*':
+                    return x[0] * x[2];
+                case '/':
+                    return x[0] / x[2];
+            }
+        }else
+            return x;
+    }
+
+
+function checkCalculations() {
+	console.log(three(times(five())));
+	console.log(four(plus(eight())));
+	console.log(eight(minus(two())));
+	console.log(six(dividedBy(three())));
+}
+
+6. PHP
+
+Description:
+
+Write a function to reverse digits of a number.
+
+You will receive an input number, example: 12345. 
+Expected result: 54321.
+
+Please don't convert input number into the string. We would like to see a numerical solution.
+
+
+Your Solution:
+
+// complete the function, PHP
+function reverseNumber($num) {
+   $result = 0;
+
+    $pos = 1;
+    do{
+        $pos *= 10;
+        $int = $num % $pos;
+
+        $result = ($result * 10) + ($int / ($pos / 10));
+        $num -= $int;
+
+    }while($pos <= $num);
+
+    return $result;
+}
+
+
+7. SQL
+
+We have two tables.
+
+Table: department
+Fields:
+id Number (pk)
+name Varchar(100)
+
+Table: employee
+Fields:
+id Number (pk)
+department_id Number
+chief_id Number
+name Varchar(100)
+salary Number
+
+Please write SQL queries for:
+
+- Display a list of employees who receive salary greater than the direct supervisor's salary
+
+SELECT w.id, w.name FROM employee as w LEFT JOIN employee as c ON w.chief_id = c.id WHERE w.salary > c.salary
+
+- Display a list of employees who receive the maximum salary in his department
+
+SELECT w.id, w.name, w.salary, (SELECT MAX(salary) FROM employee WHERE department_id = w.department_id) as salary FROM employee as w HAVING w.salary = salary
+
+- Display a list of employees who do not have a designated supervisor working in the same department
+
+SELECT w.id, w.name FROM employee as w LEFT JOIN employee as c ON w.chief_id = c.id WHERE c.department_id != w.department_id
+
+- Display a list of departments sorted by a maximum total salary of employees in it, descending
+
+SELECT w.department_id, d.name, SUM(w.salary) as salary_sum FROM employee as w LEFT JOIN department AS d ON d.id = w.department_id GROUP BY w.department_id ORDER BY salary_sum DESC
